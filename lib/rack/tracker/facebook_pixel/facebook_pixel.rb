@@ -5,7 +5,7 @@ class Rack::Tracker::FacebookPixel < Rack::Tracker::Handler
     end
 
     def custom?
-      custom.present? ? custom : false
+      custom.present? && custom == true ? custom : false
     end
 
     private
