@@ -18,7 +18,7 @@
 <% if events.any? %>
   <script type="text/javascript">
     <% events.each do |event| %>
-      fbq(<%= custom? ? "trackCustom" : "track" %>, <%= event.write %>);
+      fbq(<%= event.custom? ? "trackCustom" : "track" %>, <%= event.write %>);
     <% end %>
   </script>
 <% end %>
