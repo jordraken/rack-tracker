@@ -84,7 +84,7 @@ request.env['tracker'] = {
 }
 ```
 
-### Google Analytics
+## Google Analytics
 
 * `:anonymize_ip` -  sets the tracker to remove the last octet from all IP addresses, see https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApi_gat?hl=de#_gat._anonymizeIp for details.
 * `:cookie_domain` -  sets the domain name for the [GATC cookies](https://developers.google.com/analytics/devguides/collection/analyticsjs/domains#implementation). If not set its the website domain, with the www. prefix removed.
@@ -190,7 +190,7 @@ take care of the plugin on your own.
   end
 ```
 
-### Google Adwords Conversion
+## Google Adwords Conversion
 
 You can configure the handler with default options:
 ```ruby
@@ -227,7 +227,7 @@ You can also specify a different value from default options:
   end
 ```
 
-### Google Tag Manager
+## Google Tag Manager
 
 Google Tag manager code snippet doesn't support any option other than the container id
 
@@ -252,7 +252,7 @@ To add events or variables to the dataLayer from the server side, just call the 
 ```
 
 
-### Facebook Pixel
+## Facebook Pixel
 
 For implementing [Facebook Pixel](https://www.facebook.com/business/a/facebook-pixel).
 
@@ -307,7 +307,7 @@ This will result in the following:
   fbq("trackCustom", "Login", {"group":"Students"});
 ```
 
-### Visual website Optimizer (VWO)
+## Visual website Optimizer (VWO)
 Just integrate the handler with your matching account_id and you will be ready to go
 
 ```ruby
@@ -316,7 +316,7 @@ Just integrate the handler with your matching account_id and you will be ready t
   end
 ```
 
-### GoSquared
+## GoSquared
 
 To enable GoSquared tracking:
 
@@ -324,7 +324,7 @@ To enable GoSquared tracking:
 config.middleware.use(Rack::Tracker) do
   handler :go_squared, { tracker: 'ABCDEFGH' }
 end
-````
+```
 
 This will add the tracker to the page like so:
 
@@ -343,7 +343,7 @@ config.middleware.use(Rack::Tracker) do
     }
   }
 end
-````
+```
 
 This will add the specified trackers to the page like so:
 
@@ -397,7 +397,7 @@ It will render the following to the site source:
   _gs("set", "visitor", { "age": 35, "favorite_food": "pizza" });
 ```
 
-### Criteo
+## Criteo
 
 [Criteo](http://www.criteo.com/) retargeting service.
 
@@ -442,7 +442,7 @@ Another example
 t.criteo :track_transaction, { id: 'id', item: { id: "P0038", price: "6.54", quantity: 1 } }
 ```
 
-### Zanox
+## Zanox
 
 [Zanox](http://www.zanox.com/us/)
 
@@ -500,7 +500,7 @@ def show
 end
 ```
 
-### Custom Handlers
+## Custom Handlers
 
 Tough we give you handlers for a few tracking services right out of the box, you might
 be interested adding support for your custom tracking/analytics service.
@@ -541,7 +541,7 @@ Lets give it a try! We need to mount our new handler in the `Rack::Tracker` midd
   config.middleware.use(Rack::Tracker) do
     handler MyHandler, { awesome: true }
   end
-````
+```
 
 Everything you're passing to the `handler` will be available as `#options` in your
 template, so you'll also gain access to the `env`-hash belonging to the current request.
