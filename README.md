@@ -9,7 +9,7 @@ Google Analytics comes first but its likely that more are added as the project g
 Normally you'd go ahead and add some partials to your application that will render out the
 needed tracking codes. As time passes by you'll find yourself with lots of tracking
 snippets, that will clutter your codebase :) When just looking at Analytics there are
-solutions like `rack-google-analytics` but they just soley tackle the existence of one
+solutions like `rack-google-analytics` but they just solely tackle the existence of one
 service.
 
 We wanted a solution that ties all services together in one place and offers
@@ -23,7 +23,7 @@ but to get you started we're shipping support for the following services out of 
 * [Google Analytics](#google-analytics)
 * [Google Adwords Conversion](#google-adwords-conversion)
 * [Google Tag Manager](#google-tag-manager)
-* [Facebook](#facebook)
+* [Facebook Pixel](#facebook-pixel)
 * [Visual Website Optimizer (VWO)](#visual-website-optimizer-vwo)
 * [GoSquared](#gosquared)
 * [Criteo](#criteo)
@@ -52,7 +52,7 @@ Add it to your middleware stack
 config.middleware.use(Rack::Tracker) do
   handler :google_analytics, { tracker: 'U-XXXXX-Y' }
 end
-````
+```
 
 This will add Google Analytics as a tracking handler.
 
@@ -252,36 +252,59 @@ To add events or variables to the dataLayer from the server side, just call the 
 ```
 
 
-### Facebook
+### Facebook Pixel
 
-* `Facebook Pixel` - adds the [Facebook Pixel](https://www.facebook.com/business/help/952192354843755)
+For implementing [Facebook Pixel](https://www.facebook.com/business/a/facebook-pixel).
 
-Use in conjunction with the [Facebook Helper](https://developers.facebook.com/docs/facebook-pixel/pixel-helper) to confirm your event fires correctly.
+Use in conjunction with the [Facebook Pixel Helper](https://developers.facebook.com/docs/facebook-pixel/pixel-helper) to confirm your event fires correctly.
 
 First, add the following to your config:
 
 ```ruby
   config.middleware.use(Rack::Tracker) do
-    handler :facebook, { id: 'PIXEL_ID' }
+    handler :facebook_pixel, { id: 'PIXEL_ID' }
   end
 ```
 
+This will add the Facebook Pixel base code and a PageView event to your application.
+
 #### Standard Events
+
+For the list of Standard Events, check Facebook's [documentation](https://www.facebook.com/business/help/952192354843755?helpref=faq_content#addeventcode).
 
 To track Standard Events from the server side just call the `tracker` method in your controller.
 
 ```ruby
   def show
     tracker do |t|
-      t.facebook :track, { type: 'Purchase', options: { value: 100, currency: 'USD' } }
+      t.facebook_pixel :track, { type: 'Purchase', options: { value: 100, currency: 'USD' } }
     end
   end
 ```
 
-Will result in the following:
+This will result in the following:
 
 ```javascript
   fbq("track", "Purchase", {"value":"100.0","currency":"USD"});
+```
+
+#### Custom Events
+
+For tracking custom events, add the `custom` parameter and set it to `true`.
+Then use any type or options you want to include.
+
+```ruby
+  def show
+    tracker do |t|
+      t.facebook_pixel :track, { type: 'Login', options: { group: 'Students' }, custom: true }
+    end
+  end
+```
+
+This will result in the following:
+
+```javascript
+  fbq("trackCustom", "Login", {"group":"Students"});
 ```
 
 ### Visual website Optimizer (VWO)
