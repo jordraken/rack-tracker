@@ -58,4 +58,35 @@ RSpec.describe Rack::Tracker::FacebookPixel do
       expect(subject).to match(%r{https://www.facebook.com/tr\?id=&ev=PageView&noscript=1})
     end
   end
+
+  describe 'with custom events' do
+    def env
+      {
+        'tracker' => {
+        'facebook_pixel' =>
+          [
+            {
+              'type' => 'Login',
+              'class_name' => 'Event',
+              'options' =>
+                {
+                  'organization' => 'TestCompany',
+                  'country' => 'USA'
+                },
+              'custom' => true
+            }
+          ]
+        }
+      }
+    end
+    subject { described_class.new(env).render }
+
+    it 'will push the custom tracking events to the queue' do
+      expect(subject).to match(%r{"trackCustom", "Login", \{"organization":"TestCompany","country":"USA"\}})
+    end
+
+    it 'will add the noscript fallback' do
+      expect(subject).to match(%r{https://www.facebook.com/tr\?id=&ev=PageView&noscript=1})
+    end
+  end
 end
