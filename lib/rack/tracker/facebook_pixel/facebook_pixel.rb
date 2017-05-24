@@ -4,6 +4,10 @@ class Rack::Tracker::FacebookPixel < Rack::Tracker::Handler
       options.present? ? type_to_json << options_to_json : type_to_json
     end
 
+    def custom?
+      custom.present? ? custom : false
+    end
+
     private
 
     def type_to_json
